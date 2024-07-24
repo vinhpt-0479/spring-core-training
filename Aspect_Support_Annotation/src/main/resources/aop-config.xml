@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- Bật AspectJ Auto Proxy -->
+    <aop:config>
+        <!-- Định nghĩa các Aspect -->
+        <aop:aspect id="loggingAspect" ref="myAspect">
+            <!-- Định nghĩa các pointcuts và advice ở đây -->
+
+            <!-- Định nghĩa các pointcuts -->
+            <aop:pointcut id="anyOldTransfer" expression="execution(* transfer(..))"/>
+            <aop:pointcut id="anyPublicOperation" expression="execution(public * *(..))"/>
+            <aop:pointcut id="anyOperationInService" expression="execution(* spring.core.nvd.services.Operation.*(..))"/>
+            <aop:pointcut id="inTrading" expression="within(spring.core.nvd.trading..*)"/>
+            <aop:pointcut id="tradingOperation" expression="public * spring.core.nvd.trading..*.*(..))"/>
+            <aop:pointcut id="anyServices" expression="execution(public * spring.core.nvd.services.MyService.*(..))"/>
+
+            <!-- Định nghĩa các advices -->
+            <aop:before pointcut="execution(public * spring.core.nvd.services.MyService.*(..))" method="logBefore"/>
+            <aop:after pointcut="execution(public * spring.core.nvd.services.MyService.*(..))" method="logAfter"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!-- Định nghĩa bean cho Aspect -->
+    <bean id="myAspect" class="spring.core.nvd.aspects.LoggingAspect"/>
+    
+    <!-- Định nghĩa bean cho dịch vụ -->
+    <bean id="myService" class="spring.core.nvd.services.MyService"/>
+</beans>
