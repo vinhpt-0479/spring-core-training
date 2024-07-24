@@ -58,3 +58,5 @@ log/
 .settings/
 *.launch
 */target/
+
+.vscode/
