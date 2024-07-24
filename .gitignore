@@ -59,4 +59,8 @@ log/
 *.launch
 */target/
 
+<<<<<<< HEAD
 Transaction_Management/
+=======
+.vscode/
+>>>>>>> 68f2f25804df199891430979a1bd1d4314bc29ef
